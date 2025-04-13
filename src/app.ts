@@ -1,5 +1,6 @@
 import {Invoice} from "./models/Invoice";
-
+import {Payment} from "./models/Payment";
+import {HasFormatter} from "./interfaces/HasFormatter"
 
 let invoices: Invoice[] = []
 
@@ -12,10 +13,13 @@ const amount = document.querySelector('#amount') as HTMLInputElement;
 form.addEventListener('submit', (e: Event) => {
     e.preventDefault();
 
-    console.log(
-        type.value,
-        details.value,
-        tofrom.value,
-        amount.value,
-    );
+    let doc: HasFormatter;
+
+    if(type.value === "Invoice") {
+        doc = new Invoice(tofrom.value, details.value, amount.valueAsNumber)
+    }else {
+        doc = new Payment(tofrom.value, details.value, amount.valueAsNumber)
+    }
+
+    console.log(doc.format);
 })
